@@ -612,13 +612,16 @@
 
         // Config
         const DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/abruptor-5da3a.firebasestorage.app/o/ABRUPTOR%2FAbruptor%20PRO%20SUITE%20Setup%204.2.0.exe?alt=media&token=3398f598-f552-482e-a345-83ad287c22ee";
+        // LINK OFICIAL DO CHECKOUT
+        const CHECKOUT_URL = "https://pay.kiwify.com.br/nPgjzzi"; 
 
         function handleDownload() {
             window.open(DOWNLOAD_URL, '_blank');
         }
 
         function goToCheckout() {
-            window.location.href = 'checkout.html';
+            // Abre o link da Kiwify
+            window.open(CHECKOUT_URL, '_blank');
         }
 
         function scrollToPricing() {
