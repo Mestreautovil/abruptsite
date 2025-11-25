@@ -1,1 +1,253 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ativar Licença | Abruptor Pro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Firebase SDKs (Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        // --- CONFIGURAÇÃO FIREBASE (Do seu arquivo original) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAp7kuQs2BapVg2h6TVDtHpDw1Ii8LnOU",
+            authDomain: "abruptor-5da3a.firebaseapp.com",
+            databaseURL: "https://abruptor-5da3a-default-rtdb.firebaseio.com",
+            projectId: "abruptor-5da3a",
+            storageBucket: "abruptor-5da3a.firebasestorage.app",
+            messagingSenderId: "551432268092",
+            appId: "1:551432268092:web:6bb1aaf242b69bb30f5639",
+            measurementId: "G-3KNPPVHTWL"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Expondo funções para o escopo global para usar no onclick
+        window.db = db;
+        window.set = set;
+        window.ref = ref;
+        window.get = get;
+        window.child = child;
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Space Grotesk', 'sans-serif'] },
+                    colors: { brand: { 500: '#2481cc', 600: '#1a6db0' }, dark: { 900: '#0B0F19', 800: '#111827' } },
+                    animation: { 'pulse-slow': 'pulse 3s infinite' }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Input Autofill fix for dark theme */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #111827 inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-slate-300 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- Background FX -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-brand-500/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px]"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="w-full max-w-md relative z-10">
+        
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500 to-purple-600 shadow-lg shadow-brand-500/20 mb-4">
+                <i data-lucide="check" class="text-white w-6 h-6 stroke-[3]"></i>
+            </div>
+            <h1 class="font-display text-2xl md:text-3xl font-bold text-white mb-2">Pagamento Confirmado!</h1>
+            <p class="text-slate-400 text-sm">Crie seu login abaixo para acessar o software.</p>
+        </div>
+
+        <div class="glass p-8 rounded-3xl shadow-2xl border border-white/10 relative overflow-hidden" id="register-card">
+            <!-- Content: Register Form -->
+            <div id="form-section">
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5 ml-1">Usuário (Login)</label>
+                        <div class="relative group">
+                            <i data-lucide="user" class="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-brand-500 transition-colors"></i>
+                            <input type="text" id="username" class="w-full bg-dark-800 border border-slate-700 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-slate-600 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition-all" placeholder="ex: seu.nome">
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-1 ml-1">Este será seu ID de acesso no aplicativo.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5 ml-1">Senha de Acesso</label>
+                        <div class="relative group">
+                            <i data-lucide="lock" class="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-brand-500 transition-colors"></i>
+                            <input type="password" id="password" class="w-full bg-dark-800 border border-slate-700 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-slate-600 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition-all" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5 ml-1">Confirmar Senha</label>
+                        <div class="relative group">
+                            <i data-lucide="lock" class="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-brand-500 transition-colors"></i>
+                            <input type="password" id="confirm-password" class="w-full bg-dark-800 border border-slate-700 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-slate-600 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition-all" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <button onclick="registerUser()" id="btn-submit" class="w-full bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/20 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 mt-2">
+                        <span>Ativar Minha Conta</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content: Success State (Hidden initially) -->
+            <div id="success-section" class="hidden text-center py-4">
+                <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20">
+                    <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Conta Ativada!</h3>
+                <p class="text-slate-400 mb-8 text-sm max-w-xs mx-auto">Seu acesso foi liberado. Baixe o software e faça login com os dados que acabou de criar.</p>
+                
+                <div class="bg-dark-800 p-4 rounded-xl border border-slate-700 mb-6 text-left relative group">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-brand-500 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                    <div class="relative bg-dark-800 rounded-xl p-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Usuário</span>
+                            <span id="display-user" class="text-sm font-mono text-white font-bold">...</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Status</span>
+                            <span class="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">ATIVO</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="downloadSoftware()" class="w-full bg-white text-brand-600 hover:bg-slate-100 font-bold py-4 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 mb-4">
+                    <i data-lucide="download" class="w-5 h-5"></i> Baixar Abruptor v4.2
+                </button>
+                
+                <p class="text-[10px] text-slate-500">Compatível com Windows 10 e 11</p>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="loading" class="absolute inset-0 bg-dark-900/80 backdrop-blur-sm flex flex-col items-center justify-center z-50 hidden">
+                <div class="w-12 h-12 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                <span class="text-sm font-bold text-white animate-pulse">Validando Licença...</span>
+            </div>
+
+        </div>
+        
+        <div class="text-center mt-8 flex items-center justify-center gap-2 text-xs text-slate-500 opacity-60">
+            <i data-lucide="lock" class="w-3 h-3"></i> Ambiente Seguro 256-bit SSL
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Link de Download do Instalador
+        const DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/abruptor-5da3a.firebasestorage.app/o/ABRUPTOR%2FAbruptor%20PRO%20SUITE%20Setup%204.2.0.exe?alt=media&token=3398f598-f552-482e-a345-83ad287c22ee";
+
+        async function registerUser() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            const loading = document.getElementById('loading');
+
+            if (!username || !password) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            if (password !== confirmPass) {
+                alert("As senhas não coincidem.");
+                return;
+            }
+
+            if (password.length < 6) {
+                alert("A senha deve ter pelo menos 6 caracteres.");
+                return;
+            }
+
+            // Start Loading
+            loading.classList.remove('hidden');
+
+            try {
+                // Referência ao nó do usuário no Firebase
+                const userRef = window.ref(window.db, 'users/' + username);
+                
+                // Verifica se usuário já existe
+                const snapshot = await window.get(userRef);
+                if (snapshot.exists()) {
+                    loading.classList.add('hidden');
+                    alert("Este nome de usuário já está em uso. Por favor, escolha outro.");
+                    return;
+                }
+
+                // Cria o usuário
+                await window.set(userRef, {
+                    password: password,
+                    plan: 'pro_monthly', // Plano padrão
+                    status: 'active',
+                    created_at: Date.now(),
+                    credits: 999999, // Ilimitado
+                    role: 'user'
+                });
+
+                // Cria o nó de estatísticas vazio para evitar erros no dashboard
+                await window.set(window.ref(window.db, `users/${username}/stats`), {
+                    sent: 0,
+                    instances: 0,
+                    leads: 0
+                });
+
+                // Success
+                loading.classList.add('hidden');
+                document.getElementById('form-section').classList.add('hidden');
+                document.getElementById('success-section').classList.remove('hidden');
+                document.getElementById('display-user').innerText = username;
+                
+                // Refresh icons for new content
+                lucide.createIcons();
+
+            } catch (error) {
+                console.error(error);
+                loading.classList.add('hidden');
+                alert("Erro ao conectar com o servidor. Tente novamente.");
+            }
+        }
+
+        function downloadSoftware() {
+            window.open(DOWNLOAD_URL, '_blank');
+        }
+    </script>
+</body>
+</html>
