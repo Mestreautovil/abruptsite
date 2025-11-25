@@ -94,14 +94,14 @@
         .text-gradient {
             background: linear-gradient(to right, #38bdf8, #818cf8);
             -webkit-background-clip: text;
-            background-clip: text; /* Fix CSS warning */
+            background-clip: text; 
             -webkit-text-fill-color: transparent;
         }
 
         /* Range Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
-            appearance: none; /* Fix CSS warning */
+            appearance: none; 
             background: transparent;
         }
         input[type=range]::-webkit-slider-thumb {
@@ -151,10 +151,15 @@
                 <a href="#pricing" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Planos</a>
             </div>
 
-            <button onclick="handleDownload()" class="hidden md:flex group relative px-6 py-2.5 bg-white text-dark-900 rounded-lg font-bold text-sm items-center gap-2 overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-200/50 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
-                <i data-lucide="download" class="w-4 h-4"></i> Baixar App
-            </button>
+            <div class="hidden md:flex items-center gap-4">
+                <button onclick="handleDownload()" class="text-sm font-bold text-slate-300 hover:text-white transition-colors">
+                    Baixar App
+                </button>
+                <button onclick="goToCheckout()" class="group relative px-6 py-2.5 bg-white text-dark-900 rounded-lg font-bold text-sm items-center gap-2 overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] flex">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-200/50 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
+                    <i data-lucide="user-plus" class="w-4 h-4"></i> Criar Conta
+                </button>
+            </div>
 
             <button class="md:hidden text-white" onclick="toggleMenu()">
                 <i data-lucide="menu" class="w-6 h-6"></i>
@@ -166,9 +171,12 @@
             <a href="#features" class="text-white py-2 border-b border-white/5">Recursos</a>
             <a href="#calculator" class="text-white py-2 border-b border-white/5">Lucratividade</a>
             <a href="#pricing" class="text-white py-2 border-b border-white/5">Planos</a>
-            <button onclick="handleDownload()" class="w-full py-3 bg-brand-600 text-white rounded-lg font-bold flex items-center justify-center gap-2">
-                <i data-lucide="download" class="w-4 h-4"></i> Baixar Agora
-            </button>
+            <div class="flex flex-col gap-3 mt-2">
+                <button onclick="goToCheckout()" class="w-full py-3 bg-brand-600 text-white rounded-lg font-bold flex items-center justify-center gap-2">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i> Criar Conta
+                </button>
+                <button onclick="handleDownload()" class="w-full py-3 bg-dark-800 border border-white/10 text-white rounded-lg font-bold">Baixar App</button>
+            </div>
         </div>
     </nav>
 
@@ -188,12 +196,12 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                    <button onclick="handleDownload()" class="group relative px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(14,165,233,0.3)] transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
-                        <i data-lucide="download" class="w-5 h-5"></i> Baixar para Windows
+                    <button onclick="goToCheckout()" class="group relative px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(14,165,233,0.3)] transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i> Criar Conta Agora
                         <div class="absolute inset-0 rounded-xl ring-2 ring-white/20 group-hover:ring-white/40 transition-all"></div>
                     </button>
-                    <button onclick="scrollToPricing()" class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all hover:-translate-y-1 flex items-center justify-center gap-2 backdrop-blur-md">
-                        <i data-lucide="play-circle" class="w-5 h-5"></i> Ver Planos
+                    <button onclick="handleDownload()" class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all hover:-translate-y-1 flex items-center justify-center gap-2 backdrop-blur-md">
+                        <i data-lucide="download" class="w-5 h-5"></i> Baixar
                     </button>
                 </div>
 
@@ -206,7 +214,7 @@
 
             <!-- Enhanced Software Mockup with Real Screenshot -->
             <div class="relative perspective-2000" data-aos="fade-left" data-aos-delay="200">
-                <!-- Floating Elements (Hidden on small screens for responsiveness) -->
+                <!-- Floating Elements -->
                 <div class="absolute -left-12 top-1/3 glass px-4 py-3 rounded-xl hidden sm:flex items-center gap-3 z-20 animate-float shadow-2xl border-l-4 border-emerald-500">
                     <div class="bg-emerald-500/20 p-2 rounded-lg text-emerald-400"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
                     <div>
@@ -341,7 +349,7 @@
                     <p class="text-sm text-emerald-400 font-medium relative z-10 flex items-center gap-1">
                         <i data-lucide="trending-up" class="w-4 h-4"></i> ROI de <span id="roi-percent">4000%</span> sobre a assinatura
                     </p>
-                    <button onclick="handleDownload()" class="mt-8 w-full py-3 bg-white text-dark-900 font-bold rounded-lg hover:bg-slate-200 transition-colors relative z-10 flex items-center justify-center gap-2">
+                    <button onclick="goToCheckout()" class="mt-8 w-full py-3 bg-white text-dark-900 font-bold rounded-lg hover:bg-slate-200 transition-colors relative z-10 flex items-center justify-center gap-2">
                         <i data-lucide="rocket" class="w-4 h-4"></i> Começar Minha Agência
                     </button>
                 </div>
@@ -470,7 +478,7 @@
                             <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Acesso Imediato</li>
                         </div>
 
-                        <button onclick="handleDownload()" class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <button onclick="goToCheckout()" class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
                             Quero Lucrar Agora <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </button>
                     </div>
@@ -532,9 +540,14 @@
         <div class="max-w-4xl mx-auto text-center relative z-10">
             <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Pronto para Escalar?</h2>
             <p class="text-brand-100 text-lg mb-8 max-w-2xl mx-auto">Não deixe dinheiro na mesa. Baixe o Abruptor agora e comece a automatizar suas vendas em minutos.</p>
-            <button onclick="handleDownload()" class="px-10 py-5 bg-white text-brand-600 rounded-xl font-bold text-xl shadow-2xl hover:bg-brand-50 transition-colors flex items-center justify-center gap-3 mx-auto">
-                <i data-lucide="download" class="w-6 h-6"></i> Fazer Download Agora
-            </button>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="handleDownload()" class="px-10 py-5 bg-white text-brand-600 rounded-xl font-bold text-xl shadow-2xl hover:bg-brand-50 transition-colors flex items-center justify-center gap-3">
+                    <i data-lucide="download" class="w-6 h-6"></i> Fazer Download Agora
+                </button>
+                <button onclick="goToCheckout()" class="px-10 py-5 bg-brand-700 text-white border border-white/20 rounded-xl font-bold text-xl shadow-xl hover:bg-brand-800 transition-colors flex items-center justify-center gap-3">
+                    <i data-lucide="user-plus" class="w-6 h-6"></i> Criar Conta
+                </button>
+            </div>
         </div>
     </section>
 
@@ -602,6 +615,10 @@
 
         function handleDownload() {
             window.open(DOWNLOAD_URL, '_blank');
+        }
+
+        function goToCheckout() {
+            window.location.href = 'checkout.html';
         }
 
         function scrollToPricing() {
