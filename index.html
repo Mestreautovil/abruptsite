@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abruptor | A Única Solução Enterprise para Automação no Telegram</title>
+    <meta name="description" content="Escale suas vendas no Telegram com a segurança da API Oficial. Automação de elite para profissionais que exigem resultados.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1', // Primary Blue
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            900: '#0B0F19', // Deep bg
+                            800: '#111827', // Card bg
+                            700: '#1F2937', // Border
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(14, 165, 233, 0.5)' },
+                            '50%': { opacity: '.5', boxShadow: '0 0 10px rgba(14, 165, 233, 0.2)' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-card {
+            background: linear-gradient(180deg, rgba(31, 41, 55, 0.6) 0%, rgba(17, 24, 39, 0.8) 100%);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text; /* Fix CSS warning */
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none; /* Fix CSS warning */
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+            border: 2px solid #fff;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #374151;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-slate-300 font-sans overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-brand-600/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-600/10 rounded-full blur-[120px]"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity" onclick="window.scrollTo(0,0)">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                    <i data-lucide="send" class="text-white w-5 h-5 -ml-0.5 mt-0.5" stroke-width="2.5"></i>
+                </div>
+                <span class="font-display font-bold text-2xl text-white tracking-tight">Abruptor<span class="text-brand-500">.</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 bg-dark-800/50 px-6 py-2 rounded-full border border-white/5 backdrop-blur-md">
+                <a href="#features" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Recursos</a>
+                <a href="#calculator" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Lucratividade</a>
+                <a href="#comparison" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Comparativo</a>
+                <a href="#pricing" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Planos</a>
+            </div>
+
+            <button onclick="handleDownload()" class="hidden md:flex group relative px-6 py-2.5 bg-white text-dark-900 rounded-lg font-bold text-sm items-center gap-2 overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-200/50 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
+                <i data-lucide="download" class="w-4 h-4"></i> Baixar App
+            </button>
+
+            <button class="md:hidden text-white" onclick="toggleMenu()">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-dark-900 border-b border-white/10 p-6 flex-col gap-4 shadow-2xl">
+            <a href="#features" class="text-white py-2 border-b border-white/5">Recursos</a>
+            <a href="#calculator" class="text-white py-2 border-b border-white/5">Lucratividade</a>
+            <a href="#pricing" class="text-white py-2 border-b border-white/5">Planos</a>
+            <button onclick="handleDownload()" class="w-full py-3 bg-brand-600 text-white rounded-lg font-bold flex items-center justify-center gap-2">
+                <i data-lucide="download" class="w-4 h-4"></i> Baixar Agora
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-500 text-xs font-bold uppercase tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span> Versão 4.2.0 Stable
+                </div>
+                <h1 class="font-display font-bold text-5xl lg:text-7xl text-white leading-[1.1] mb-6">
+                    A Automação que <br/>
+                    <span class="text-gradient">Gera Dinheiro.</span>
+                </h1>
+                <p class="text-lg text-slate-400 mb-8 leading-relaxed max-w-lg">
+                    Abandone ferramentas amadoras. O Abruptor usa conexão via <strong>API Oficial</strong> e <strong>Humanizer AI™</strong> para transformar seu Windows em uma máquina de vendas impossível de bloquear.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                    <button onclick="handleDownload()" class="group relative px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(14,165,233,0.3)] transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <i data-lucide="download" class="w-5 h-5"></i> Baixar para Windows
+                        <div class="absolute inset-0 rounded-xl ring-2 ring-white/20 group-hover:ring-white/40 transition-all"></div>
+                    </button>
+                    <button onclick="scrollToPricing()" class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all hover:-translate-y-1 flex items-center justify-center gap-2 backdrop-blur-md">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i> Ver Planos
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-6 text-sm text-slate-500 font-medium">
+                    <div class="flex items-center gap-2"><i data-lucide="check-circle" class="text-brand-500 w-4 h-4"></i> Windows 10/11</div>
+                    <div class="flex items-center gap-2"><i data-lucide="shield-check" class="text-brand-500 w-4 h-4"></i> Antiban Shield</div>
+                    <div class="flex items-center gap-2"><i data-lucide="zap" class="text-brand-500 w-4 h-4"></i> Setup Instantâneo</div>
+                </div>
+            </div>
+
+            <!-- Enhanced Software Mockup with Real Screenshot -->
+            <div class="relative perspective-2000" data-aos="fade-left" data-aos-delay="200">
+                <!-- Floating Elements (Hidden on small screens for responsiveness) -->
+                <div class="absolute -left-12 top-1/3 glass px-4 py-3 rounded-xl hidden sm:flex items-center gap-3 z-20 animate-float shadow-2xl border-l-4 border-emerald-500">
+                    <div class="bg-emerald-500/20 p-2 rounded-lg text-emerald-400"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase font-bold">Venda Realizada</div>
+                        <div class="text-white font-bold">R$ 297,00 <span class="text-xs text-slate-500 font-normal">agora</span></div>
+                    </div>
+                </div>
+
+                <div class="relative bg-dark-800 border border-white/10 rounded-2xl shadow-2xl overflow-hidden transform rotate-y-[-10deg] rotate-x-[5deg] hover:rotate-0 transition-all duration-700 group">
+                    <!-- Window Header -->
+                    <div class="h-12 bg-dark-900/80 border-b border-white/5 flex items-center px-4 gap-2 backdrop-blur-sm">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
+                            <div class="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500/50"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-500/50"></div>
+                        </div>
+                        <div class="flex-1 text-center text-xs font-mono text-slate-500">abruptor_dashboard.exe — 12 Active Sessions</div>
+                    </div>
+                    
+                    <!-- Real Dashboard Image -->
+                    <div class="relative w-full bg-dark-900">
+                        <img src="https://i.postimg.cc/Bbr4vZS3/Captura-de-Tela-(176).png" alt="Abruptor Dashboard" class="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity duration-500">
+                        
+                        <!-- Subtle Gradient Overlay to blend bottom -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/20 to-transparent pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Strip -->
+    <div class="border-y border-white/5 bg-white/[0.02] backdrop-blur-sm relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div data-aos="fade-up" data-aos-delay="0">
+                <div class="text-3xl md:text-4xl font-bold text-white mb-1 count-up" data-end="100" data-suffix="%">0%</div>
+                <div class="text-xs text-brand-500 font-bold uppercase tracking-widest">Conexão API</div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+                <div class="text-3xl md:text-4xl font-bold text-white mb-1 count-up" data-end="5" data-suffix="M+">0M+</div>
+                <div class="text-xs text-brand-500 font-bold uppercase tracking-widest">Envios/Dia</div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <div class="text-3xl md:text-4xl font-bold text-white mb-1 count-up" data-end="99.9" data-suffix="%">0%</div>
+                <div class="text-xs text-brand-500 font-bold uppercase tracking-widest">Uptime</div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="300">
+                <div class="text-3xl md:text-4xl font-bold text-white mb-1 count-up" data-end="24" data-suffix="/7">0/0</div>
+                <div class="text-xs text-brand-500 font-bold uppercase tracking-widest">Suporte</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Problem vs Solution Section -->
+    <section class="py-24 px-6 bg-dark-900 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">O Fim do Amadorismo</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Por que a maioria perde chips e contas? Porque usam ferramentas baseadas em navegador. O Abruptor é diferente.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- The Bad Way -->
+                <div class="glass-card p-8 rounded-2xl border border-red-500/20 relative overflow-hidden group" data-aos="fade-right">
+                    <div class="absolute -right-10 -top-10 bg-red-500/10 w-40 h-40 rounded-full blur-3xl group-hover:bg-red-500/20 transition-colors"></div>
+                    <h3 class="text-xl font-bold text-red-400 mb-6 flex items-center gap-3"><i data-lucide="x-circle"></i> Ferramentas Web/Chrome</h3>
+                    <ul class="space-y-4 text-slate-400">
+                        <li class="flex items-start gap-3"><i data-lucide="x" class="text-red-500 mt-1 w-4 h-4"></i> Conexão QR Code instável e detectável</li>
+                        <li class="flex items-start gap-3"><i data-lucide="x" class="text-red-500 mt-1 w-4 h-4"></i> Consome toda a RAM do navegador</li>
+                        <li class="flex items-start gap-3"><i data-lucide="x" class="text-red-500 mt-1 w-4 h-4"></i> Sem humanização real (Spam óbvio)</li>
+                        <li class="flex items-start gap-3"><i data-lucide="x" class="text-red-500 mt-1 w-4 h-4"></i> Banimento frequente de números</li>
+                    </ul>
+                </div>
+
+                <!-- The Abruptor Way -->
+                <div class="glass-card p-8 rounded-2xl border border-emerald-500/20 relative overflow-hidden group" data-aos="fade-left">
+                    <div class="absolute -right-10 -top-10 bg-emerald-500/10 w-40 h-40 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-colors"></div>
+                    <h3 class="text-xl font-bold text-emerald-400 mb-6 flex items-center gap-3"><i data-lucide="check-circle"></i> Abruptor Pro Suite</h3>
+                    <ul class="space-y-4 text-slate-300">
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="text-emerald-500 mt-1 w-4 h-4"></i> <strong>API Nativa (Telethon):</strong> Conexão oficial de desenvolvedor</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="text-emerald-500 mt-1 w-4 h-4"></i> <strong>Desktop App:</strong> Leve, rápido e roda em background</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="text-emerald-500 mt-1 w-4 h-4"></i> <strong>Humanizer AI:</strong> Simula digitação e comportamento humano</li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="text-emerald-500 mt-1 w-4 h-4"></i> <strong>Multi-Sessão:</strong> Gerencie 100+ contas sem misturar dados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Profit Calculator -->
+    <section id="calculator" class="py-24 px-6 relative overflow-hidden">
+        <!-- Bg Gradients -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand-900/20 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-block mb-4 px-4 py-1 rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20 text-xs font-bold uppercase tracking-wider">Oportunidade de Negócio</div>
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-6">Calculadora de Lucro B2B</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+                    Não use apenas para vender seus produtos. Crie uma agência de disparos e venda o serviço para comércios locais. Veja quanto você pode faturar:
+                </p>
+            </div>
+
+            <div class="glass-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl grid lg:grid-cols-2 gap-12 items-center" data-aos="zoom-in">
+                <div class="space-y-8">
+                    <!-- Input 1 -->
+                    <div>
+                        <div class="flex justify-between mb-4">
+                            <label class="font-bold text-slate-300">Clientes por Mês</label>
+                            <span id="clients-val" class="text-brand-400 font-mono font-bold text-xl">5</span>
+                        </div>
+                        <input type="range" id="clients-range" min="1" max="50" value="5" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer">
+                        <p class="text-xs text-slate-500 mt-2">Ex: Pizzarias, Imobiliárias, Lojas de Roupa...</p>
+                    </div>
+
+                    <!-- Input 2 -->
+                    <div>
+                        <div class="flex justify-between mb-4">
+                            <label class="font-bold text-slate-300">Preço Médio do Serviço</label>
+                            <span id="price-val" class="text-brand-400 font-mono font-bold text-xl">R$ 600</span>
+                        </div>
+                        <input type="range" id="price-range" min="200" max="2000" step="50" value="600" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer">
+                        <p class="text-xs text-slate-500 mt-2">Cobrado por campanha de disparos + extração.</p>
+                    </div>
+                </div>
+
+                <!-- Result Box -->
+                <div class="bg-dark-900/80 p-8 rounded-2xl border border-white/5 flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent"></div>
+                    <h4 class="text-slate-400 font-bold uppercase tracking-widest text-xs mb-2 relative z-10">Lucro Líquido Mensal</h4>
+                    <div id="total-profit" class="text-5xl md:text-6xl font-bold text-white mb-4 relative z-10 tracking-tight">R$ 2.930</div>
+                    <p class="text-sm text-emerald-400 font-medium relative z-10 flex items-center gap-1">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i> ROI de <span id="roi-percent">4000%</span> sobre a assinatura
+                    </p>
+                    <button onclick="handleDownload()" class="mt-8 w-full py-3 bg-white text-dark-900 font-bold rounded-lg hover:bg-slate-200 transition-colors relative z-10 flex items-center justify-center gap-2">
+                        <i data-lucide="rocket" class="w-4 h-4"></i> Começar Minha Agência
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="py-24 px-6 bg-dark-800 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">Arsenal Completo</h2>
+                <p class="text-slate-400">Todas as ferramentas que você precisa em um único dashboard.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="group p-6 bg-dark-900/50 border border-white/5 rounded-2xl hover:border-brand-500/30 hover:bg-dark-900 transition-all duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-12 h-12 bg-brand-500/10 rounded-xl flex items-center justify-center text-brand-500 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="target" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Scraper Ultra Rápido</h3>
+                    <p class="text-slate-400 text-sm">Extraia membros de grupos concorrentes em segundos. Filtre apenas por "Visto recentemente" para garantir leads quentes.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group p-6 bg-dark-900/50 border border-white/5 rounded-2xl hover:border-brand-500/30 hover:bg-dark-900 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-500 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Humanizer AI™</h3>
+                    <p class="text-slate-400 text-sm">O sistema "aquece" a conversa enviando um "Oi" ou "Tudo bem?" antes da oferta, aumentando a conversão e evitando spam.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group p-6 bg-dark-900/50 border border-white/5 rounded-2xl hover:border-brand-500/30 hover:bg-dark-900 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="lock" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Conexão API Hash</h3>
+                    <p class="text-slate-400 text-sm">Use chaves oficiais de desenvolvedor do Telegram. Isso torna sua automação invisível aos filtros básicos de bots.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="group p-6 bg-dark-900/50 border border-white/5 rounded-2xl hover:border-brand-500/30 hover:bg-dark-900 transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-500 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Gestão Multi-Contas</h3>
+                    <p class="text-slate-400 text-sm">Conecte quantas contas quiser. O software gerencia todas em abas separadas, ideal para escalar ou atender múltiplos clientes.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="group p-6 bg-dark-900/50 border border-white/5 rounded-2xl hover:border-brand-500/30 hover:bg-dark-900 transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-12 h-12 bg-pink-500/10 rounded-xl flex items-center justify-center text-pink-500 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Disparos Multimídia</h3>
+                    <p class="text-slate-400 text-sm">Não envie só texto. Suporte total a Imagens, Vídeos, Áudios (como se fossem gravados na hora) e Arquivos.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="group p-6 bg-dark-900/50 border border-white/5 rounded-2xl hover:border-brand-500/30 hover:bg-dark-900 transition-all duration-300" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Updates Automáticos</h3>
+                    <p class="text-slate-400 text-sm">O Telegram mudou? Nós atualizamos. Você recebe as correções automaticamente ao abrir o software.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">Preço Simples. Acesso Total.</h2>
+                <p class="text-slate-400">Sem taxas escondidas. Cancele quando quiser.</p>
+            </div>
+
+            <div class="max-w-5xl mx-auto grid md:grid-cols-5 gap-8 items-stretch">
+                <!-- Trust Side -->
+                <div class="md:col-span-2 flex flex-col justify-center" data-aos="fade-right">
+                    <div class="glass-card p-8 rounded-3xl">
+                        <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 mb-6">
+                            <i data-lucide="shield-check" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Garantia de 7 Dias</h3>
+                        <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                            Teste sem medo. Se o software não funcionar como prometido ou você não se adaptar, devolvemos 100% do seu dinheiro.
+                        </p>
+                        <div class="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                            <i data-lucide="lock" class="w-3 h-3"></i> Checkout Seguro Kiwify
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Pricing Card -->
+                <div class="md:col-span-3 relative group" data-aos="fade-left">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-purple-600 rounded-[2rem] blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+                    <div class="relative bg-dark-800 rounded-[1.5rem] p-8 md:p-10 h-full flex flex-col border border-white/10">
+                        <div class="absolute top-0 right-0 bg-gradient-to-bl from-brand-600 to-brand-700 text-white text-xs font-bold px-4 py-2 rounded-bl-xl">OFERTA LIMITADA</div>
+                        
+                        <div class="flex justify-between items-start mb-8">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white mb-1">Plano Pro</h3>
+                                <p class="text-slate-400 text-sm">Licença Mensal</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-slate-500 line-through text-sm">R$ 197</span>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-lg font-bold text-slate-400">R$</span>
+                                    <span class="text-6xl font-display font-bold text-white tracking-tighter">69</span>
+                                    <span class="text-2xl font-bold text-slate-400">,99</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4 mb-10 flex-1">
+                            <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Instalador Windows</li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Contas Ilimitadas</li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Humanizer AI Incluso</li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Scraper Premium</li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Suporte Prioritário</li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm"><i data-lucide="check" class="w-5 h-5 text-brand-500"></i> Acesso Imediato</li>
+                        </div>
+
+                        <button onclick="handleDownload()" class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            Quero Lucrar Agora <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-24 px-6 border-t border-white/5 bg-dark-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-3xl font-bold text-white mb-4">Quem usa, recomenda</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-dark-800 p-8 rounded-2xl border border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">"Sempre fui bloqueado com outros bots. O Abruptor com API Hash é outro nível. Estou rodando 5 contas há 3 meses sem nenhum banimento."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-900 rounded-full flex items-center justify-center text-brand-400 font-bold">R</div>
+                        <div><div class="font-bold text-white text-sm">Ricardo Silva</div><div class="text-xs text-slate-500">Marketing Digital</div></div>
+                    </div>
+                </div>
+                <!-- Review 2 -->
+                <div class="bg-dark-800 p-8 rounded-2xl border border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">"Montei uma agência só de disparos usando o software. Atendo 4 pizzarias da minha cidade. A ferramenta se pagou no primeiro dia."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-900 rounded-full flex items-center justify-center text-purple-400 font-bold">C</div>
+                        <div><div class="font-bold text-white text-sm">Camila Torres</div><div class="text-xs text-slate-500">Agência Local</div></div>
+                    </div>
+                </div>
+                <!-- Review 3 -->
+                <div class="bg-dark-800 p-8 rounded-2xl border border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">"Interface limpa, rápida e funciona de verdade. O extrator de grupos é muito rápido. Recomendo demais."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-900 rounded-full flex items-center justify-center text-emerald-400 font-bold">J</div>
+                        <div><div class="font-bold text-white text-sm">João Pedro</div><div class="text-xs text-slate-500">Dropshipping</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-brand-600"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Pronto para Escalar?</h2>
+            <p class="text-brand-100 text-lg mb-8 max-w-2xl mx-auto">Não deixe dinheiro na mesa. Baixe o Abruptor agora e comece a automatizar suas vendas em minutos.</p>
+            <button onclick="handleDownload()" class="px-10 py-5 bg-white text-brand-600 rounded-xl font-bold text-xl shadow-2xl hover:bg-brand-50 transition-colors flex items-center justify-center gap-3 mx-auto">
+                <i data-lucide="download" class="w-6 h-6"></i> Fazer Download Agora
+            </button>
+        </div>
+    </section>
+
+    <!-- Clean Professional Footer -->
+    <footer class="bg-dark-900 border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <!-- Left: Brand -->
+            <div class="flex items-center gap-2 opacity-80">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
+                    <i data-lucide="send" class="text-white w-4 h-4 -ml-0.5 mt-0.5"></i>
+                </div>
+                <span class="font-display font-bold text-xl text-white">Abruptor</span>
+            </div>
+            
+            <!-- Right: System Status Box (Kept for professional look, replacing links) -->
+            <div class="bg-dark-800/50 rounded-xl border border-white/5 p-4 flex items-center gap-6">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    Status do Sistema
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-xs font-bold text-emerald-500">API Online</span>
+                </div>
+                <div class="flex items-center gap-2 border-l border-white/5 pl-6">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                    <span class="text-xs font-bold text-emerald-500">Scraper Ativo</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>© 2024 Abruptor Software Ltda. Todos os direitos reservados.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">Privacidade</a>
+                <a href="#" class="hover:text-white transition-colors">Termos de Uso</a>
+                <a href="#" class="hover:text-white transition-colors">Reembolso</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        // Init Icons
+        lucide.createIcons();
+        
+        // Init Animations
+        AOS.init({
+            once: true,
+            duration: 800,
+            offset: 100,
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Config
+        const DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/abruptor-5da3a.firebasestorage.app/o/ABRUPTOR%2FAbruptor%20PRO%20SUITE%20Setup%204.2.0.exe?alt=media&token=3398f598-f552-482e-a345-83ad287c22ee";
+
+        function handleDownload() {
+            window.open(DOWNLOAD_URL, '_blank');
+        }
+
+        function scrollToPricing() {
+            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-dark-900/90', 'backdrop-blur-lg', 'border-white/10', 'shadow-lg');
+                navbar.classList.remove('border-transparent', 'py-4');
+                navbar.classList.add('py-3');
+            } else {
+                navbar.classList.remove('bg-dark-900/90', 'backdrop-blur-lg', 'border-white/10', 'shadow-lg', 'py-3');
+                navbar.classList.add('border-transparent', 'py-4');
+            }
+        });
+
+        // Calculator Logic
+        const clientsRange = document.getElementById('clients-range');
+        const priceRange = document.getElementById('price-range');
+        const clientsVal = document.getElementById('clients-val');
+        const priceVal = document.getElementById('price-val');
+        const totalProfit = document.getElementById('total-profit');
+        const roiPercent = document.getElementById('roi-percent');
+        const COST = 69.99;
+
+        function updateCalc() {
+            const clients = parseInt(clientsRange.value);
+            const price = parseInt(priceRange.value);
+            const revenue = clients * price;
+            const profit = revenue - COST;
+            const roi = ((profit / COST) * 100).toFixed(0);
+
+            clientsVal.textContent = clients;
+            priceVal.textContent = `R$ ${price}`;
+            totalProfit.textContent = profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            roiPercent.textContent = `${roi}%`;
+        }
+
+        clientsRange.addEventListener('input', updateCalc);
+        priceRange.addEventListener('input', updateCalc);
+        updateCalc(); // Init
+
+        // Count Up Animation
+        const stats = document.querySelectorAll('.count-up');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const el = entry.target;
+                    const end = parseFloat(el.getAttribute('data-end'));
+                    const suffix = el.getAttribute('data-suffix');
+                    animateValue(el, 0, end, 2000, suffix);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        stats.forEach(s => observer.observe(s));
+
+        function animateValue(obj, start, end, duration, suffix) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                let value = Math.floor(progress * (end - start) + start);
+                if(end % 1 !== 0) value = (progress * end).toFixed(1);
+                
+                if (value > 1000000) obj.innerHTML = (value/1000000).toFixed(0) + suffix;
+                else obj.innerHTML = value + suffix;
+
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>
